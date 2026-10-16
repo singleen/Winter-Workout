@@ -1,0 +1,9 @@
+{
+  "name": "Winter Workout Guide",
+  "short_name": "Winter Workout",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f8",
+  "theme_color": "#111827",
+  "description": "Offline winter workout guide."
+}
