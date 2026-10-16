@@ -41,3 +41,33 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px calc
 .inline-log input{width:100%;padding:8px;border:1px solid #d0d5dd;border-radius:8px;font-size:.92rem;margin-top:3px;background:#fff}
 .save.compact{margin:0;padding:9px 10px}
 @media(max-width:520px){.inline-log{grid-template-columns:1fr 1fr}.save.compact{grid-column:1/-1}}
+
+/* iPhone compact layout */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+header,nav,main,footer{max-width:100%}
+.exercise-head{min-width:0}
+.exercise-name{min-width:0;overflow-wrap:anywhere}
+.dose{white-space:normal;text-align:right;max-width:42%;flex:0 0 auto}
+.card,.hero,.day-card{max-width:100%;overflow:hidden}
+.inline-log{min-width:0}
+.inline-log label{min-width:0}
+.inline-log input{min-width:0;max-width:100%}
+@media(max-width:600px){
+  header{padding-left:14px;padding-right:14px}
+  main{width:100%;padding-left:9px;padding-right:9px}
+  .hero,.card,.day-card{border-radius:12px;padding:12px}
+  .exercise{padding:11px 0}
+  .exercise-head{gap:8px}
+  .exercise-name{font-size:.96rem;line-height:1.25}
+  .dose{font-size:.88rem;line-height:1.25}
+  .cue{font-size:.86rem}
+  .inline-log{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px}
+  .inline-log input{font-size:16px;padding:8px 6px}
+  .save.compact{grid-column:1/-1;width:100%}
+}
+@media(max-width:390px){
+  main{padding-left:6px;padding-right:6px}
+  .hero,.card,.day-card{padding:10px}
+  .exercise-head{display:grid;grid-template-columns:minmax(0,1fr) auto}
+  .dose{max-width:125px}
+}
