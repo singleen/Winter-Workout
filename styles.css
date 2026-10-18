@@ -71,3 +71,17 @@ header,nav,main,footer{max-width:100%}
   .exercise-head{display:grid;grid-template-columns:minmax(0,1fr) auto}
   .dose{max-width:125px}
 }
+
+/* v7 autosave + Heavy/Capacity */
+.auto-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:7px;margin-top:9px}.auto-fields label{font-size:.76rem;color:var(--muted);min-width:0}.auto-fields input{display:block;width:100%;box-sizing:border-box;margin-top:3px;border:1px solid var(--line);border-radius:8px;padding:8px 6px;font-size:16px;background:#fff;color:var(--ink)}.mode-logs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:7px;margin-top:10px}.mode-log{border:1px solid var(--line);border-radius:10px;padding:8px;min-width:0}.mode-title{font-weight:700;font-size:.9rem;margin-bottom:3px}.mode-title span{font-weight:500;color:var(--muted);font-size:.78rem;margin-left:3px}.mode-log .auto-fields{grid-template-columns:1fr;margin-top:5px}@media(max-width:600px){.mode-logs{gap:5px}.mode-log{padding:6px}.mode-title{font-size:.84rem}.mode-title span{display:block;margin-left:0}.mode-log .auto-fields{grid-template-columns:1fr}.auto-fields{gap:5px}}
+
+.desc-toggle{margin-top:8px;border:1px solid var(--line);background:#fff;color:var(--accent);border-radius:8px;padding:7px 10px;font-size:.82rem;font-weight:700;cursor:pointer}
+.exercise-description{margin-top:7px;padding:9px 10px;border-left:3px solid var(--accent);background:var(--accent2);border-radius:6px;font-size:.87rem;line-height:1.4;color:var(--ink)}
+.exercise-description[hidden]{display:none}
+
+/* v17 reliable exercise description disclosure */
+details.exercise-description{margin-top:8px;border-left:0;background:transparent;padding:0}
+details.exercise-description summary{display:inline-block;list-style:none;border:1px solid var(--line);background:#fff;color:var(--accent);border-radius:8px;padding:7px 10px;font-size:.82rem;font-weight:700;cursor:pointer}
+details.exercise-description summary::-webkit-details-marker{display:none}
+details.exercise-description[open] summary{margin-bottom:7px}
+details.exercise-description>div{padding:9px 10px;border-left:3px solid var(--accent);background:var(--accent2);border-radius:6px;font-size:.87rem;line-height:1.45;color:var(--ink)}
