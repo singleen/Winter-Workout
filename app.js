@@ -28,7 +28,7 @@ Tuesday:{title:"Upper Body PT & Full",purpose:"Primary upper-body strength/mass 
 ["DB Floor Press","3 × 6–8","Primary press; leave 1–3 reps in reserve"],
 ["One-Arm DB Row","3 × 6–8/side","Controlled pull; avoid torso rotation"],
 ["DB Floor Flye","2 × 10–12","Floor limits shoulder extension"],
-["Band Lat Pulldown","2 × 8–10","Full controlled range"],
+["Pull-Ups","2 × 8–10","Full controlled range"],
 ["DB Shoulder Press","2 × 8–10","Avoid excessive back arch"],
 ["DB Lateral Raise","2 × 10–15","Controlled; stop before shrugging"],
 ["DB Curl","2 × 8–12","Full range"],
@@ -105,33 +105,48 @@ function setTab(name){
 tabs.forEach(b=>b.classList.toggle("active",b.dataset.view===name))}
 const recoveryDescriptions={"Easy Treadmill Walk": "Walk at an easy pace for 3–5 minutes. The goal is to raise body temperature and loosen up, not to create fatigue.", "Cat-Cow": "Start on hands and knees with hands under shoulders and knees under hips. Slowly arch the back as you lift the chest, then round the spine and gently tuck the chin. Move smoothly for 8–10 repetitions.", "Thread the Needle": "Start on hands and knees. Slide one arm underneath the opposite arm as your upper back rotates toward the floor. Return, then rotate that arm toward the ceiling. Keep the hips relatively still. Do 6–8 per side.", "Thoracic Rotations": "Use a comfortable standing, kneeling, or athletic stance. Keep the hips mostly square and rotate through the upper and middle back. Move slowly through a comfortable range for 8 repetitions per side.", "90/90 Hip Switches": "Sit with both knees bent about 90 degrees and feet on the floor. Keeping the torso tall, rotate both knees together from one side to the other. Move under control for 8–10 repetitions per side.", "Half-Kneeling Hip-Flexor Stretch + Reach": "Kneel on one knee with the opposite foot forward. Gently tuck the pelvis and shift forward until you feel a stretch at the front of the rear hip. Reach the arm on the kneeling side overhead. Hold about 30 seconds and repeat twice per side.", "Adductor Rock-Backs": "Begin on hands and knees. Extend one leg straight out to the side with the foot supported. Keep your back neutral and slowly rock your hips backward until you feel the inner-thigh stretch, then return. Do 8–10 per side.", "Active Hamstring Floss": "Place one heel forward with the knee nearly straight. Hinge gently at the hips toward that leg, then ease back out. Keep the movement dynamic rather than holding a deep stretch. Do 8–10 per side.", "Knee-to-Wall Ankle Mobilization": "Face a wall with one foot flat on the floor. Keeping the heel down, drive the knee forward over the toes toward the wall. Move the foot closer or farther away so you can reach the wall without the heel lifting. Do 10 per side.", "Supported Deep Squat Hold": "Hold a sturdy support and lower into a comfortable squat. Keep your feet fully supported and use whatever stance is most comfortable for your fused right big toe. Hold 30–45 seconds, twice. Do not force depth.", "Floor Slides / Snow Angels": "Lie on your back with your arms against or close to the floor. Start with the arms lower and slowly sweep them outward and overhead like making a snow angel, then return. Keep the ribs controlled and use only a comfortable shoulder range. Do 10–12 repetitions.", "Band Pull-Aparts": "Hold a light resistance band in front of you around shoulder height. Keeping the elbows nearly straight, pull your hands apart by squeezing the shoulder blades together. Avoid shrugging. Return slowly for 12–15 repetitions.", "Quadruped Thoracic Rotations": "Start on hands and knees and place one hand behind your head. Bring that elbow gently down toward the opposite wrist, then rotate the elbow upward toward the ceiling. Keep the hips quiet and rotate through the upper back. Do 8 per side.", "Dead Bug": "Lie on your back with arms pointing upward and hips and knees bent about 90 degrees. Brace your abdomen and gently press the low back toward the floor. Slowly extend the opposite arm and leg, stopping before the back begins to arch. Return and alternate for 8 per side.", "Pallof Press": "Anchor a band around chest height and stand sideways to it. Hold the band at your chest, brace your trunk, then press your hands straight forward. Resist the band's pull to rotate you. Return slowly for 10 repetitions per side.", "Bird Dog": "Start on hands and knees. Brace lightly, then extend the opposite arm and leg. Think about reaching long rather than lifting high. Keep the pelvis level, return slowly, and alternate for 8 per side.", "Side Plank": "Lie on your side and support yourself on one forearm with the elbow under the shoulder. Lift the hips until the body forms a straight line. Use the feet or the lower knee for support as needed. Hold 25–40 seconds per side.", "DB Suitcase Hold": "Stand tall holding one dumbbell at your side. Brace your abdomen and resist leaning toward or away from the weight. Keep the shoulders and pelvis level. Hold 30–45 seconds per side.", "Reverse Crunch": "Lie on your back with hips and knees bent. Brace your abdomen, bring the knees toward the chest, and curl the pelvis so the tailbone lifts slightly from the floor. Lower slowly without swinging the legs. Do 10–12 repetitions.", "Forearm Plank": "Support yourself on your forearms and toes with elbows under shoulders. Brace the abdomen and glutes and maintain a straight line from shoulders through hips. Avoid sagging or piking. Hold 30–60 seconds.", "Band Chop — High to Low": "Anchor a resistance band above head height and stand sideways to the anchor. Hold the band with both hands and pull diagonally down across the body toward the opposite hip. Allow controlled torso rotation, then return slowly. Do 10 per side.", "Slow Mountain Climber": "Start in a high plank with hands under shoulders. Brace your trunk and slowly bring one knee toward the chest without allowing the hips to rock. Return the foot and alternate for 8 per side.", "Side Plank with Reach-Through": "Begin in a side plank with the top arm reaching toward the ceiling. Slowly reach that arm underneath your torso as you rotate through the upper back, then reopen toward the ceiling. Keep the hips elevated. Do 6–8 per side.", "Bear Plank DB Drag": "Start on hands and knees with a dumbbell just outside one hand. Lift the knees only 1–2 inches from the floor. With the opposite hand, drag the dumbbell underneath your body to the other side. Keep the hips as still as possible. Alternate for 6–8 drags per side.", "Bent-Knee Leg Raise / Reverse Crunch": "Lie on your back with the knees bent. Bring the knees toward your torso under control and finish with a small pelvic curl so the tailbone lifts slightly. Lower slowly and avoid momentum. Do 10–12 repetitions."};
 
+function targetText(value,fallback){
+  if(!value) return fallback;
+  if(typeof value==="string") return value;
+  if(value.sets && value.reps) return `${value.sets} sets × ${value.reps}`;
+  if(value.reps) return value.reps;
+  return fallback;
+}
+
 function exerciseHTML(e, day, section){
   const [name,dose,cue]=e; const key=`log:${day}:${name}`; const saved=JSON.parse(localStorage.getItem(key)||"{}");
   const warmup=name.toLowerCase().includes("warm-up") || name.toLowerCase().includes("warmup");
   const loggable=["Tuesday","Wednesday","Friday","Sunday"].includes(day) && !warmup;
   const repTargets={
-    "DB Floor Press":["3 sets × 6–8","2–3 sets × 10–12"],
-    "One-Arm DB Row":["3 sets × 6–8","2–3 sets × 10–12"],
-    "DB Floor Flye":["2 sets × 8–10","2 sets × 12–15"],
-    "Band Lat Pulldown":["2–3 sets × 6–8","2 sets × 12–15"],
-    "DB Shoulder Press":["2–3 sets × 6–8","2 sets × 10–12"],
-    "DB Lateral Raise":["2 sets × 8–10","2–3 sets × 12–15"],
-    "DB Curl":["2 sets × 6–8","2–3 sets × 10–15"],
-    "Triceps Extension / Pressdown":["2 sets × 6–8","2–3 sets × 10–15"],
-    "Leg Press":["3 sets × 6–8","2–3 sets × 12–15"],
-    "Hungarian Split Squat":["3 sets × 6–8/leg","2–3 sets × 10–12/leg"],
-    "DB Step-Ups":["3 sets × 6–8/leg","2–3 sets × 10–12/leg"],
-    "Leg Curl":["3 sets × 6–8","2–3 sets × 10–15"],
-    "Leg Extension":["2 sets × 6–8","2–3 sets × 12–15"],
-    "DB Glute Bridge / Hip Thrust":["3 sets × 6–8","2–3 sets × 10–15"],
-    "Calf Raise":["2–3 sets × 6–10","2–3 sets × 12–20"],
-    "Slow Assisted Pull-Up":["3 sets × 5–8","2–3 sets × 10–12"]
-  };
+  "DB Floor Press":{heavy:"3 sets × 5–8",capacity:"3 sets × 10–12"},
+  "One-Arm DB Row":{heavy:"3 sets × 6–8/side",capacity:"3 sets × 10–12/side"},
+  "DB Floor Flye":{heavy:"2 sets × 8–10",capacity:"2 sets × 12–15"},
+  "Pull-Ups":{heavy:"3 sets × 5–8",capacity:"3 sets × 8–12"},
+  "DB Shoulder Press":{heavy:"3 sets × 6–8",capacity:"2–3 sets × 10–12"},
+  "DB Lateral Raise":{heavy:"2 sets × 8–10",capacity:"3 sets × 12–15"},
+  "DB Curl":{heavy:"2–3 sets × 6–8",capacity:"2–3 sets × 10–15"},
+  "Triceps Extension / Pressdown":{heavy:"2–3 sets × 6–8",capacity:"2–3 sets × 10–15"},
+  "Leg Press":{heavy:"3 sets × 5–8",capacity:"3 sets × 12–15"},
+  "Hungarian Split Squat":{heavy:"3 sets × 6–8/leg",capacity:"3 sets × 10–12/leg"},
+  "DB Step-Ups":{heavy:"3 sets × 6–8/leg",capacity:"2–3 sets × 10–12/leg"},
+  "Leg Curl":{heavy:"3 sets × 6–8",capacity:"3 sets × 10–15"},
+  "Leg Extension":{heavy:"2 sets × 6–8",capacity:"2–3 sets × 12–15"},
+  "DB Glute Bridge / Hip Thrust":{heavy:"3 sets × 6–8",capacity:"3 sets × 10–15"},
+  "Eccentric Step-Down":{heavy:"2 sets × 6–8/leg",capacity:"2–3 sets × 10–12/leg"},
+  "Calf Raise":{heavy:"3 sets × 6–10",capacity:"3 sets × 12–20"},
+  "Slow Assisted Pull-Up":{heavy:"3 sets × 5–8",capacity:"3 sets × 8–12"}
+
+  ,"DB Flys":{heavy:"2 sets × 8–10",capacity:"2 sets × 12–15"}
+  ,"Triceps":{heavy:"2–3 sets × 6–8",capacity:"2–3 sets × 10–15"}
+  ,"Leg Extension / Machine":{heavy:"2 sets × 6–8",capacity:"2–3 sets × 12–15"}
+  ,"Calf Raises":{heavy:"3 sets × 6–10",capacity:"3 sets × 12–20"}
+  ,"Eccentric Step-Downs":{heavy:"2 sets × 6–8/leg",capacity:"2–3 sets × 10–12/leg"}
+};
   const targets=repTargets[name];
   const dualMode=(day==="Tuesday" || day==="Friday") && !!targets; let fields="";
-  if(loggable && dualMode){ fields=`<div class="mode-logs"><div class="mode-log"><div class="mode-title">Heavy <span>${targets[0]}</span></div><div class="auto-fields"><label>Weight / assistance<input data-key="${key}" data-mode="heavy" data-field="weight" value="${saved.heavy?.weight||""}" placeholder="Weight"></label><label>Reps / notes<input data-key="${key}" data-mode="heavy" data-field="reps" value="${saved.heavy?.reps||""}" placeholder="Reps / notes"></label></div></div><div class="mode-log"><div class="mode-title">Capacity <span>${targets[1]}</span></div><div class="auto-fields"><label>Weight / assistance<input data-key="${key}" data-mode="capacity" data-field="weight" value="${saved.capacity?.weight||""}" placeholder="Weight"></label><label>Reps / notes<input data-key="${key}" data-mode="capacity" data-field="reps" value="${saved.capacity?.reps||""}" placeholder="Reps / notes"></label></div></div></div>`; }
+  if(loggable && dualMode){ fields=`<div class="mode-logs"><div class="mode-log"><div class="mode-title">Heavy <span>${targets.heavy}</span></div><div class="auto-fields"><label>Weight / assistance<input data-key="${key}" data-mode="heavy" data-field="weight" value="${saved.heavy?.weight||""}" placeholder="Weight"></label><label>Reps / notes<input data-key="${key}" data-mode="heavy" data-field="reps" value="${saved.heavy?.reps||""}" placeholder="Reps / notes"></label></div></div><div class="mode-log"><div class="mode-title">Capacity <span>${targets.capacity}</span></div><div class="auto-fields"><label>Weight / assistance<input data-key="${key}" data-mode="capacity" data-field="weight" value="${saved.capacity?.weight||""}" placeholder="Weight"></label><label>Reps / notes<input data-key="${key}" data-mode="capacity" data-field="reps" value="${saved.capacity?.reps||""}" placeholder="Reps / notes"></label></div></div></div>`; }
   else if(loggable){ fields=`<div class="auto-fields standard-fields"><label>Weight / assistance<input data-key="${key}" data-mode="standard" data-field="weight" value="${saved.standard?.weight||saved.weight||""}" placeholder="Weight"></label><label>Reps / notes<input data-key="${key}" data-mode="standard" data-field="reps" value="${saved.standard?.reps||saved.reps||""}" placeholder="Reps / notes"></label></div>`; }
-  return `<div class="exercise"><div class="exercise-head"><div class="exercise-name">${name}</div>${(day==="Monday"||day==="Saturday") ? `<div class="dose">${dose}</div>` : ""}</div>${fields}<p class="cue">${cue}</p>
+  return `<div class="exercise"><div class="exercise-head"><div class="exercise-name">${name}</div>${(["Monday","Wednesday","Saturday","Sunday"].includes(day)) ? `<div class="dose">${dose ?? ""}</div>` : ""}</div>${fields}<p class="cue">${cue ?? ""}</p>
     ${((day==="Monday"||day==="Saturday") && recoveryDescriptions[name]) ? `<details class="exercise-description"><summary>Description</summary><div>${recoveryDescriptions[name]}</div></details>` : ""}</div>`;
 }
 function attachAutosave(){document.querySelectorAll("input[data-key]").forEach(input=>{input.addEventListener("input",()=>{const key=input.dataset.key,mode=input.dataset.mode,field=input.dataset.field;const data=JSON.parse(localStorage.getItem(key)||"{}");if(!data[mode])data[mode]={};data[mode][field]=input.value;data[mode].date=new Date().toISOString();localStorage.setItem(key,JSON.stringify(data));});});}
